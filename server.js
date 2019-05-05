@@ -30,7 +30,7 @@ http.createServer(function(req, response) {
 		  });
 		
 		// If we have the access_token in the cookie skip the Oauth Dance and go straight to Step 3
-		if (cookies['LIAccess_token']){
+		if (typeof cookies['LIAccess_token'] !== 'undefined'){
 			// STEP 3 - Get LinkedIn API Data
 			// console.log("we have the cookie value" + cookies['LIAccess_token']);
 			OauthStep3(req, response, cookies['LIAccess_token'], APICalls['peopleSearchWithKeywords']);
@@ -106,7 +106,7 @@ var OauthStep2 = function(request, response, code) {
 				access_token = JSON.parse(d).access_token;
 				
 				var ExpiresIn29days = new Date();
-				ExpiresIn29days.setDate(in30days.getDate() + 29);
+				ExpiresIn29days.setDate(ExpiresIn29days.getDate() + 29);
 				response.writeHead(200, {
 				  'Set-Cookie':'LIAccess_token=' + access_token + '; Expires=' + ExpiresIn29days
 				});
